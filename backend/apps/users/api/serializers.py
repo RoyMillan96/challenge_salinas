@@ -1,6 +1,12 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.users.models import User
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'name', 'last_name', 'email')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,3 +41,7 @@ class UserListSerializer(serializers.ModelSerializer):
             'last_name': instance['last_name'],
             'email': instance['email'],
         }
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    pass
