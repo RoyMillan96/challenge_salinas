@@ -7,7 +7,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.users.api.serializers import (
-    CustomTokenObtainPairSerializer, CustomUserSerializer
+    CustomTokenObtainPairSerializer, CustomUserSerializer,
+    LogoutSerializer
 )
 
 from apps.users.models import User
@@ -37,7 +38,8 @@ class Login(TokenObtainPairView):
 
 
 class Logout(GenericAPIView):
-    
+    serializer_class = LogoutSerializer
+
     def post(self, request, *args, **kwargs):
         user_id = request.data.get('user')
         user = User.objects.filter(id=user_id)

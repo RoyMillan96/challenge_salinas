@@ -45,3 +45,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     pass
+
+
+class LogoutSerializer(serializers.Serializer):
+    pass
