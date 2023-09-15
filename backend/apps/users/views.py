@@ -17,6 +17,9 @@ class Login(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
+        """
+            Takes the user's credentials to log in and returns the access token to requests.
+        """
         username = request.data.get('username', '')
         password = request.data.get('password', '')
         user = authenticate(username=username, password=password)
@@ -41,6 +44,9 @@ class Logout(GenericAPIView):
     serializer_class = LogoutSerializer
 
     def post(self, request, *args, **kwargs):
+        """
+            Closes the user's session and prevents requests if not logged in.
+        """
         user_id = request.data.get('user')
         user = User.objects.filter(id=user_id)
         if user.exists():

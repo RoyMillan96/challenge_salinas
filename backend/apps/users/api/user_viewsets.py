@@ -16,10 +16,16 @@ class UserViewSet(viewsets.ModelViewSet):
             return self.queryset.filter(id=pk).first()
 
     def list(self, request):
+        """
+            Obtains the list of all active users in the application.
+        """
         user_serializer = UserListSerializer(self.get_queryset(), many=True)
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
+        """
+            Create a new user.
+        """
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -27,6 +33,9 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def update(self, request, pk=None):
+        """
+            Update the data of an existing user.
+        """
         if self.get_queryset(pk):
             product_serializer = self.serializer_class(self.get_queryset(pk), data=request.data)
             if product_serializer.is_valid():
@@ -35,6 +44,9 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(product_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, pk=None):
+        """
+            Deleting an existing user.
+        """
         product =  self.get_queryset(pk)
         if product:
             product.is_active = False

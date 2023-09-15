@@ -48,4 +48,4 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class LogoutSerializer(serializers.Serializer):
-    pass
+    user = serializers.IntegerField(required=True)
