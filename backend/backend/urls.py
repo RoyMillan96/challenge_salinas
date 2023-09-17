@@ -31,4 +31,5 @@ urlpatterns = [
     path('logout/', Logout.as_view(), name = 'logout'),
     re_path('redocs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('users/', include('apps.users.api.routers')),
+    path('weather/', include('apps.weather.api.urls')),
 ]
