@@ -38,7 +38,7 @@ class CurrentConditionCity:
     api_key= client.api_key
     api_url = client.api_url + 'currentconditions/v1/'
 
-    def get_current_condition(self, key_location, user_id):
+    def get_current_condition(self, key_location, user_id, country):
         cache_key = 'user_current_condition_{}_{}'.format(user_id, key_location)
         user_has_current_condition = cache.get(cache_key, {})
         if not user_has_current_condition:
@@ -50,7 +50,7 @@ class CurrentConditionCity:
             try:
                 response = requests.get(self.api_url, params=params)
                 if response.ok:
-                    user_has_current_condition = clean_data(response.json())
+                    user_has_current_condition = clean_data(response.json(), user_id, country)
                     cache.set(cache_key, user_has_current_condition, 60 * 60)
             except HTTPError as http_error:  # Captura específicamente excepciones HTTP
                 return HttpResponse('Error HTTP: ' + str(http_error), status=500)
@@ -64,7 +64,7 @@ class DayForecastsConditionCity:
     api_key= client.api_key
     api_url = client.api_url + 'forecasts/v1/daily/'
 
-    def get_forecasts_by_day(self, key_location, days, user_id):
+    def get_forecasts_by_day(self, key_location, days, user_id, country):
         cache_key = 'user_forecast_by_day_{}_{}'.format(key_location, user_id)
         user_has_forecast = cache.get(cache_key, {})
         if not user_has_forecast:
@@ -75,7 +75,7 @@ class DayForecastsConditionCity:
             try:
                 response = requests.get(self.api_url, params=params)
                 if response.ok:
-                    user_has_forecast = clean_data_forecasts(response.json())
+                    user_has_forecast = clean_data_forecasts(response.json(), user_id, country)
                     cache.set(cache_key, user_has_forecast, 60 * 60)
             except HTTPError as http_error:  # Captura específicamente excepciones HTTP
                 return HttpResponse('Error HTTP: ' + str(http_error), status=500)
@@ -89,7 +89,7 @@ class HourForecastsConditionCity:
     api_key= client.api_key
     api_url = client.api_url + 'forecasts/v1/hourly/'
 
-    def get_forecasts_by_hour(self, key_location, hour, user_id):
+    def get_forecasts_by_hour(self, key_location, hour, user_id, country):
         cache_key = 'user_forecast_by_hour_{}_{}'.format(key_location, user_id)
         user_has_forecast_hours = cache.get(cache_key, {})
         if not user_has_forecast_hours:
@@ -100,7 +100,7 @@ class HourForecastsConditionCity:
             try:
                 response = requests.get(self.api_url, params=params)
                 if response.ok:
-                    user_has_forecast_hours = clean_data(response.json())
+                    user_has_forecast_hours = clean_data(response.json(), user_id, country)
                     cache.set(cache_key, user_has_forecast_hours, 60 * 60)
             except HTTPError as http_error:  # Captura específicamente excepciones HTTP
                 return HttpResponse('Error HTTP: ' + str(http_error), status=500)
