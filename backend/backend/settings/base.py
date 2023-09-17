@@ -18,6 +18,9 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
+BASE_URL_WEATHER = env('BASE_URL_WEATHER')
+API_KEY_WEATHER = env('API_KEY_WEATHER')
+
 
 # Application definition
 
@@ -33,6 +36,7 @@ BASE_APPS = [
 LOCAL_APPS = [
     'apps.users',
     'apps.base',
+    'apps.weather',
 ]
 
 THIRD_APPS = [
@@ -55,7 +59,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -68,6 +72,14 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization',
             'in': 'header'
         }
+    }
+}
+
+# Configuración de caché usando Redis
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379", 
     }
 }
 
