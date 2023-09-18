@@ -1,4 +1,5 @@
 from rest_framework.generics import GenericAPIView
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from apps.weather.models import WeatherData, WeatherDataDay
@@ -38,7 +39,7 @@ class CurrentConditionCityGeneric(GenericAPIView):
                         DateTime = data['DateTime']
                         country = data['country']
                         # Check if there is already a record with the same location and date and time.
-                        if not WeatherData.objects.filter(country=country, DateTime=DateTime).exists():
+                        if not WeatherData.objects.filter(user_id=user_id, country=country, DateTime=DateTime).exists():
                             serializer.save()
                     return Response(
                         {
@@ -81,7 +82,7 @@ class DayForecastsCityGeneric(GenericAPIView):
                         DateTime = data['DateTime']
                         country = data['Country']
                         # Check if there is already a record with the same location and date and time.
-                        if not WeatherDataDay.objects.filter(Country=country, DateTime=DateTime).exists():
+                        if not WeatherDataDay.objects.filter(user_id=user_id, Country=country, DateTime=DateTime).exists():
                             serializer.save()
                     return Response(
                         {
@@ -122,7 +123,7 @@ class HourForecastsCityGeneric(GenericAPIView):
                         DateTime = data['DateTime']
                         country = data['country']
                         # Check if there is already a record with the same location and date and time.
-                        if not WeatherData.objects.filter(country=country, DateTime=DateTime).exists():
+                        if not WeatherData.objects.filter(user_id=user_id, country=country, DateTime=DateTime).exists():
                             serializer.save()
                     return Response(
                         {
@@ -135,3 +136,71 @@ class HourForecastsCityGeneric(GenericAPIView):
                     return Response({'message': 'there are data already recorded with this information'}, status=status.HTTP_400_BAD_REQUEST)
             return Response({'message': 'Data forecasts by hours not found or an error occurred'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'message': 'Data city search not found or an error occurred'}, status=status.HTTP_404_NOT_FOUND)
+    
+
+class UserDetailWeatherCurrents(generics.ListAPIView):
+    serializer_class = WeatherDataSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            user_id = self.request.user.id
+        else:
+            return WeatherData.objects.none()
+
+        queryset = WeatherData.objects.filter(user_id=user_id)
+
+        country = self.request.query_params.get('country', None)
+        date = self.request.query_params.get('datetime', None)
+
+        if country:
+            queryset = queryset.filter(country=country)
+        if date:
+            queryset = queryset.filter(DateTime=date)
+
+        if not queryset.exists():
+            return None
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        
+        if queryset is None:
+            return Response({'message': 'Response not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+class UserDetailWeatherForecasts(generics.ListAPIView):
+    serializer_class = WeatherDataDaySerializer
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            user_id = self.request.user.id
+        else:
+            return WeatherDataDay.objects.none()  # Retorna una queryset vacía
+
+        queryset = WeatherDataDay.objects.filter(user_id=user_id)
+        country = self.request.query_params.get('country', None)
+        date = self.request.query_params.get('datetime', None)
+
+        if country:
+            queryset = queryset.filter(Country=country)
+        if date:
+            queryset = queryset.filter(DateTime=date)
+
+        if not queryset.exists():
+            return None
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        
+        if queryset is None:
+            return Response({'message': 'Response not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
