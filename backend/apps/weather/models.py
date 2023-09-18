@@ -11,8 +11,6 @@ class WeatherData(models.Model):
     Unit = models.CharField(max_length=10)
     country = models.CharField(max_length=250)
 
-    class Meta:
-        unique_together = ['country', 'DateTime']
 
 class WeatherDataDay(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -23,6 +21,3 @@ class WeatherDataDay(models.Model):
     Day = models.CharField(max_length=250)
     Night = models.CharField(max_length=250)
     Country = models.CharField(max_length=250)
-
-    class Meta:
-        unique_together = ['Country', 'DateTime']
