@@ -151,11 +151,16 @@ class UserDetailWeatherCurrents(generics.ListAPIView):
 
         country = self.request.query_params.get('country', None)
         date = self.request.query_params.get('datetime', None)
+        order_by = self.request.query_params.get('order_by', None)
 
         if country:
             queryset = queryset.filter(country=country)
         if date:
             queryset = queryset.filter(DateTime=date)
+        if order_by == 'asc':
+            queryset = queryset.order_by('DateTime')
+        if order_by == 'desc':
+            queryset = queryset.order_by('-DateTime')
 
         if not queryset.exists():
             return None
@@ -187,11 +192,16 @@ class UserDetailWeatherForecasts(generics.ListAPIView):
         queryset = WeatherDataDay.objects.filter(user_id=user_id)
         country = self.request.query_params.get('country', None)
         date = self.request.query_params.get('datetime', None)
+        order_by = self.request.query_params.get('order_by', None)
 
         if country:
             queryset = queryset.filter(Country=country)
         if date:
             queryset = queryset.filter(DateTime=date)
+        if order_by == 'asc':
+            queryset = queryset.order_by('DateTime')
+        if order_by == 'desc':
+            queryset = queryset.order_by('-DateTime')
 
         if not queryset.exists():
             return None
