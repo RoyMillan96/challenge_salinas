@@ -38,7 +38,6 @@ class CurrentConditionCityGeneric(GenericAPIView):
                     for data in current_condition:
                         DateTime = data['DateTime']
                         country = data['country']
-                        # Check if there is already a record with the same location and date and time.
                         if not WeatherData.objects.filter(user_id=user_id, country=country, DateTime=DateTime).exists():
                             serializer.save()
                     return Response(
@@ -81,7 +80,6 @@ class DayForecastsCityGeneric(GenericAPIView):
                     for data in forecasts_days:
                         DateTime = data['DateTime']
                         country = data['Country']
-                        # Check if there is already a record with the same location and date and time.
                         if not WeatherDataDay.objects.filter(user_id=user_id, Country=country, DateTime=DateTime).exists():
                             serializer.save()
                     return Response(
@@ -122,7 +120,6 @@ class HourForecastsCityGeneric(GenericAPIView):
                     for data in forecasts_hours:
                         DateTime = data['DateTime']
                         country = data['country']
-                        # Check if there is already a record with the same location and date and time.
                         if not WeatherData.objects.filter(user_id=user_id, country=country, DateTime=DateTime).exists():
                             serializer.save()
                     return Response(
@@ -139,6 +136,9 @@ class HourForecastsCityGeneric(GenericAPIView):
     
 
 class UserDetailWeatherCurrents(generics.ListAPIView):
+    """
+        Gets all the searches made by the user on the current weather and can be filtered by day and city.
+    """
     serializer_class = WeatherDataSerializer
 
     def get_queryset(self):
@@ -173,13 +173,16 @@ class UserDetailWeatherCurrents(generics.ListAPIView):
     
 
 class UserDetailWeatherForecasts(generics.ListAPIView):
+    """
+        Gets all the searches made by the user on the forecasts and can be filtered by day and city.
+    """
     serializer_class = WeatherDataDaySerializer
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
             user_id = self.request.user.id
         else:
-            return WeatherDataDay.objects.none()  # Retorna una queryset vacía
+            return WeatherDataDay.objects.none()
 
         queryset = WeatherDataDay.objects.filter(user_id=user_id)
         country = self.request.query_params.get('country', None)
