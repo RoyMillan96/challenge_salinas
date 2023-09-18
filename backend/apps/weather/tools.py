@@ -39,7 +39,7 @@ def clean_data_forecasts(data_json, user_id, country):
             'Unit':  unit,
             'Day': weather.get('Day').get('IconPhrase'),
             'Night': weather.get('Night').get('IconPhrase'),
-            'country': country
+            'Country': country
         }
         data.append(data_dict)
     return data

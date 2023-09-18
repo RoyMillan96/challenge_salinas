@@ -10,3 +10,19 @@ class WeatherData(models.Model):
     Temperature = models.DecimalField(max_digits=5, decimal_places=2)
     Unit = models.CharField(max_length=10)
     country = models.CharField(max_length=250)
+
+    class Meta:
+        unique_together = ['country', 'DateTime']
+
+class WeatherDataDay(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    DateTime = models.DateTimeField()
+    Temperature_min = models.DecimalField(max_digits=5, decimal_places=2)
+    Temperature_max = models.DecimalField(max_digits=5, decimal_places=2)
+    Unit = models.CharField(max_length=10)
+    Day = models.CharField(max_length=250)
+    Night = models.CharField(max_length=250)
+    Country = models.CharField(max_length=250)
+
+    class Meta:
+        unique_together = ['Country', 'DateTime']

@@ -1,11 +1,16 @@
 from rest_framework import serializers
 
-from ..models import WeatherData
+from ..models import WeatherData, WeatherDataDay
 
 class WeatherDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeatherData
-        exclude = '__all__'
+        fields = '__all__'
+
+class WeatherDataDaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherDataDay
+        fields = '__all__'
 
 class CurrentConditionCitySerializer(serializers.Serializer):
     search_city = serializers.CharField(max_length=50, required=True)
