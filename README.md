@@ -25,7 +25,7 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
         sudo apt-get update
         sudo apt-get upgrade
 
-    Paso 2. Eliminar cualquier rastro de Docker
+    Paso 2. Eliminar cualquier rastro de Docker.
         Si ya has usado alguna versión beta de Docker o has instalado una previsualización de este software de virtualización, tendrás que eliminarlas antes de poder instalar Docker. Si no, es posible que se produzcan efectos secundarios no deseados.
 
         sudo apt remove docker-desktop
@@ -33,7 +33,7 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
         sudo rm /usr/local/bin/com.docker.cli
         sudo apt purge docker-desktop
 
-    Paso 3. Descargar repositorio de Docker
+    Paso 3. Descargar repositorio de Docker.
     Docker usa en su instalación un repositorio que debes almacenar en tu sistema. Para poder trabajar con este repositorio, debes primero instalar los siguientes paquetes:
 
         sudo apt-get install \
@@ -52,7 +52,7 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-    Paso 4. Instalar el motor de Docker
+    Paso 4. Instalar el motor de Docker.
         En Ubuntu 22.04 también puedes descargar el motor de Docker directamente desde la terminal. Los comandos concretos que necesitas para hacerlo dependen de si quieres descargarte una versión concreta de Docker o si prefieres optar por la versión más reciente.
 
         Para descargarte una versión en concreto de Docker puedes usar el siguiente comando para ver una lista de todas las versiones disponibles:
@@ -66,7 +66,7 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
 
         apt-cache madison docker-ce | awk '{ print $3 }'
 
-    Paso 5. Comprobar la instalación
+    Paso 5. Comprobar la instalación.
         Para comprobar si el programa se ha instalado correctamente, Docker te permite iniciar un Docker container de “Hello World”. Hazlo con el siguiente comando del terminal:
 
         sudo docker run hello-world
@@ -75,154 +75,158 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
         Salida de la terminal tras ejecutar “sudo docker run hello-world”
         Tras ejecutar el comando “docker run hello-world”, Docker te dará la bienvenida explicándote cómo se configuran los contenedores.
 
-    Opcional: Paso 6. Ejecutar Docker como usuario no root
+    Opcional: Paso 6. Ejecutar Docker como usuario no root.
         Como has visto con los comandos de terminal, actualmente necesitas derechos root para ejecutar Docker, ya que todos los comandos deben empezar con “sudo”. Si quieres ejecutar Docker como usuario sin derechos root, puedes hacerlo creando un grupo Docker.
 
-    Paso 6.1. Crear grupo llamado “Docker”
+    Paso 6.1. Crear grupo llamado “Docker”.
         Puedes crear un grupo llamado “Docker” y asignarle usuarios con el siguiente comando:
         sudo groupadd docker
 
-    Paso 6.2. Añadir usuarios
+    Paso 6.2. Añadir usuarios.
         Con un simple comando de la línea de comandos puedes añadir a tu grupo Docker todos los usuarios que podrán ejecutar Docker sin derechos root:
 
         sudo usermod -aG docker $USER
         $USER es un marcador de posición que debe reemplazarse por el nombre del usuario deseado. Para que puedan reconocerse y darse seguimiento a los cambios de tu sistema, debes cerrar y volver a iniciar sesión. Después, podrás acceder a Docker como usuario registrado en el grupo y no tener que recurrir a sudo.
 
-2. Install dependencias
-        ```$ git clone https://github.com/RoyMillan96/challenge_salinas.git```
-        ```$ cd backend```
+2. Install dependencias.
+        $ git clone https://github.com/RoyMillan96/challenge_salinas.git
+        $ cd backend
 
 
-3. Configurar las variables de entorno
-    ```touch .env```, si esta en windows crear el archivo manualmente en la raiz del proyecto
+3. Configurar las variables de entorno.
+    crear un .env que contendra datos sencibles que no deben ser expuestos.
+        touch .env
+    si esta en windows crear el archivo manualmente en la raiz del proyecto.
+
     A continuación, declare las variables de entorno en el archivo .env. Asegúrese de no entrecomillar las cadenas.
-    ```BASE_URL='http://localhost:8000/'```
-    ```SECRET_KEY=yoursecretkey```
-    ```URL_WEATHER=urlyoursekeyweather```
-    ```API_KEY_WEATHER=apileyweather```
-    ```API_NAME_WEATHER='challenge_salinas'```
-    ```BASE_URL_WEATHER='http://dataservice.accuweather.com/' ```
-    ```DATABASE_NAME=yourdb_name```
-    ```DATABASE_USER=youruser```
-    ```DATABASE_PASS=yourpassword```
-    ```DATABASE_HOST=127.0.0.1```
-    ```DATABASE_PORT=5432```
+    BASE_URL='http://localhost:8000/'
+    SECRET_KEY=yoursecretkey
+    URL_WEATHER=urlyoursekeyweather
+    API_KEY_WEATHER=apileyweather
+    API_NAME_WEATHER='challenge_salinas'
+    BASE_URL_WEATHER='http://dataservice.accuweather.com/' 
+    DATABASE_NAME=yourdb_name
+    DATABASE_USER=youruser
+    DATABASE_PASS=yourpassword
+    DATABASE_HOST=127.0.0.1
+    DATABASE_PORT=5432
 
-4. correr la aplicación
-    ```docker compose up```
+4. correr la aplicación.
+    docker compose up
 
-5. En una nueva instancia  corre las migraciones de la aplicacion
-    ```docker compose exec django python manage.py migrate```
+5. En una nueva instancia  corre las migraciones de la aplicacion.
+    docker compose exec django python manage.py migrate
 
-6. ve a la aplicación en tu navegador
-    ``` http://localhost:8000/ ```
+6. ve a la aplicación en tu navegador.
+     http://localhost:8000/
 
-7. Crea un admin user para acceder a la interfaz de admin de django colocando los datos requeridos
-    `docker-compose exec web python manage.py createsuperuser`
+7. Crea un admin user para acceder a la interfaz de admin de django colocando los datos requeridos.
+    docker-compose exec web python manage.py createsuperuser
 
-8. en una nueva instancia de docker abre la shell de python para crear users
-    `docker-compose run --rm django python manage.py shell_plus ` y ejecuta lo siguiente
-    from apps.users.models import User
-    def create_users():
-        users = [
-            {
-                'username': 'usuario1',
-                'email': 'usuario1@example.com',
-                'name': 'Nombre1',
-                'last_name': 'Apellido1',
-            },
-            {
-                'username': 'usuario2',
-                'email': 'usuario2@example.com',
-                'name': 'Nombre2',
-                'last_name': 'Apellido2',
-            },
-            {
-                'username': 'usuario3',
-                'email': 'usuario3@example.com',
-                'name': 'Nombre3',
-                'last_name': 'Apellido3',
-            },
-            {
-                'username': 'usuario4',
-                'email': 'usuario4@example.com',
-                'name': 'Nombre4',
-                'last_name': 'Apellido4',
-            },
-            {
-                'username': 'usuario5',
-                'email': 'usuario5@example.com',
-                'name': 'Nombre5',
-                'last_name': 'Apellido5',
-            },
-            {
-                'username': 'usuario6',
-                'email': 'usuario6@example.com',
-                'name': 'Nombre6',
-                'last_name': 'Apellido6',
-            },
-            {
-                'username': 'usuario7',
-                'email': 'usuario7@example.com',
-                'name': 'Nombre7',
-                'last_name': 'Apellido7',
-            },
-            {
-                'username': 'usuario8',
-                'email': 'usuario8@example.com',
-                'name': 'Nombre8',
-                'last_name': 'Apellido8',
-            },
-            {
-                'username': 'usuario9',
-                'email': 'usuario9@example.com',
-                'name': 'Nombre9',
-                'last_name': 'Apellido9',
-            },
-            {
-                'username': 'usuario10',
-                'email': 'usuario10@example.com',
-                'name': 'Nombre10',
-                'last_name': 'Apellido10',
-            },
-            {
-                'username': 'usuario11',
-                'email': 'usuario11@example.com',
-                'name': 'Nombre11',
-                'last_name': 'Apellido11',
-            },
-            {
-                'username': 'usuario12',
-                'email': 'usuario12@example.com',
-                'name': 'Nombre12',
-                'last_name': 'Apellido12',
-            },
-            {
-                'username': 'usuario13',
-                'email': 'usuario13@example.com',
-                'name': 'Nombre13',
-                'last_name': 'Apellido13',
-            },
-            {
-                'username': 'usuario14',
-                'email': 'usuario14@example.com',
-                'name': 'Nombre14',
-                'last_name': 'Apellido14',
-            },
-            {
-                'username': 'usuario15',
-                'email': 'usuario15@example.com',
-                'name': 'Nombre15',
-                'last_name': 'Apellido15',
-            },
-        ]
+8. en una nueva instancia de docker abre la shell de python para crear users.
+    docker-compose run --rm django python manage.py shell_plus
 
-        for user_data in users:
-            user = User(**user_data)
-            user.save()
+    ejecuta lo siguiente:
+        from apps.users.models import User
+        def create_users():
+            users = [
+                {
+                    'username': 'usuario1',
+                    'email': 'usuario1@example.com',
+                    'name': 'Nombre1',
+                    'last_name': 'Apellido1',
+                },
+                {
+                    'username': 'usuario2',
+                    'email': 'usuario2@example.com',
+                    'name': 'Nombre2',
+                    'last_name': 'Apellido2',
+                },
+                {
+                    'username': 'usuario3',
+                    'email': 'usuario3@example.com',
+                    'name': 'Nombre3',
+                    'last_name': 'Apellido3',
+                },
+                {
+                    'username': 'usuario4',
+                    'email': 'usuario4@example.com',
+                    'name': 'Nombre4',
+                    'last_name': 'Apellido4',
+                },
+                {
+                    'username': 'usuario5',
+                    'email': 'usuario5@example.com',
+                    'name': 'Nombre5',
+                    'last_name': 'Apellido5',
+                },
+                {
+                    'username': 'usuario6',
+                    'email': 'usuario6@example.com',
+                    'name': 'Nombre6',
+                    'last_name': 'Apellido6',
+                },
+                {
+                    'username': 'usuario7',
+                    'email': 'usuario7@example.com',
+                    'name': 'Nombre7',
+                    'last_name': 'Apellido7',
+                },
+                {
+                    'username': 'usuario8',
+                    'email': 'usuario8@example.com',
+                    'name': 'Nombre8',
+                    'last_name': 'Apellido8',
+                },
+                {
+                    'username': 'usuario9',
+                    'email': 'usuario9@example.com',
+                    'name': 'Nombre9',
+                    'last_name': 'Apellido9',
+                },
+                {
+                    'username': 'usuario10',
+                    'email': 'usuario10@example.com',
+                    'name': 'Nombre10',
+                    'last_name': 'Apellido10',
+                },
+                {
+                    'username': 'usuario11',
+                    'email': 'usuario11@example.com',
+                    'name': 'Nombre11',
+                    'last_name': 'Apellido11',
+                },
+                {
+                    'username': 'usuario12',
+                    'email': 'usuario12@example.com',
+                    'name': 'Nombre12',
+                    'last_name': 'Apellido12',
+                },
+                {
+                    'username': 'usuario13',
+                    'email': 'usuario13@example.com',
+                    'name': 'Nombre13',
+                    'last_name': 'Apellido13',
+                },
+                {
+                    'username': 'usuario14',
+                    'email': 'usuario14@example.com',
+                    'name': 'Nombre14',
+                    'last_name': 'Apellido14',
+                },
+                {
+                    'username': 'usuario15',
+                    'email': 'usuario15@example.com',
+                    'name': 'Nombre15',
+                    'last_name': 'Apellido15',
+                },
+            ]
 
-    create_users()
+            for user_data in users:
+                user = User(**user_data)
+                user.save()
 
+        create_users()
 
 ## Customize the application
 Instrucciones sobre cómo usar el proyecto.
