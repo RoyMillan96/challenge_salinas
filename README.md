@@ -89,16 +89,21 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
         $USER es un marcador de posición que debe reemplazarse por el nombre del usuario deseado. Para que puedan reconocerse y darse seguimiento a los cambios de tu sistema, debes cerrar y volver a iniciar sesión. Después, podrás acceder a Docker como usuario registrado en el grupo y no tener que recurrir a sudo.
 
 2. Install dependencias.
+
         $ git clone https://github.com/RoyMillan96/challenge_salinas.git
         $ cd backend
 
 
 3. Configurar las variables de entorno.
+
     crear un .env que contendra datos sencibles que no deben ser expuestos.
+
         touch .env
+
     si esta en windows crear el archivo manualmente en la raiz del proyecto.
 
     A continuación, declare las variables de entorno en el archivo .env. Asegúrese de no entrecomillar las cadenas.
+
     BASE_URL='http://localhost:8000/'
     SECRET_KEY=yoursecretkey
     URL_WEATHER=urlyoursekeyweather
@@ -112,18 +117,23 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
     DATABASE_PORT=5432
 
 4. correr la aplicación.
+
     docker compose up
 
 5. En una nueva instancia  corre las migraciones de la aplicacion.
+
     docker compose exec django python manage.py migrate
 
 6. ve a la aplicación en tu navegador.
+
      http://localhost:8000/
 
 7. Crea un admin user para acceder a la interfaz de admin de django colocando los datos requeridos.
+
     docker-compose exec web python manage.py createsuperuser
 
 8. en una nueva instancia de docker abre la shell de python para crear users.
+
     docker-compose run --rm django python manage.py shell_plus
 
     ejecuta lo siguiente:
