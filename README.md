@@ -36,13 +36,8 @@ Se debe permitir iniciar el servicio en un contenedor Docker
 1. Clona este repositorio: `git clone https://github.com/RoyMillan96/challenge_salinas.git`
 2. Navega al directorio del proyecto: `cd tu-proyecto`
 3. Instala docker
-4. Set up backend environment variables
-    From the backend directory run:
-    touch .env
-    The touch command will create the .env file in the backend/config directory. This command works on Mac and Linux but not on Windows. If you are a Windows user, instead of using the command line, you can create the .env file manually by navigating in Visual Studio Code to the Explorer, clicking on the config directory (inside the backend directory), and selecting the option New File.
-
-    Next, declare environment variables in the .env file. Make sure you don't use quotation marks around the strings.
-
+4. Configurar las variables de entorno de backend Desde el directorio de backend ejecute: touch .env El comando touch creará el archivo .env en el directorio backend/config. Este comando funciona en Mac y Linux, pero no en Windows. Si es usuario de Windows, en lugar de utilizar la línea de comandos, puede crear el archivo .env manualmente navegando en Visual Studio Code hasta el Explorador, haciendo clic en el directorio config (dentro del directorio backend) y seleccionando la opción Nuevo archivo.
+    A continuación, declare las variables de entorno en el archivo .env. Asegúrese de no entrecomillar las cadenas.
     BASE_URL='http://localhost:8000/'
     SECRET_KEY=yoursecretkey
     URL_WEATHER=urlyoursekeyweather
