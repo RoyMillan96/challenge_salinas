@@ -105,15 +105,25 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
     A continuación, declare las variables de entorno en el archivo .env. Asegúrese de no entrecomillar las cadenas puede ver el archivo de ejemplo .env. que se encuentra en la raiz del proyecto.
 
     BASE_URL='http://localhost:8000/'
+
     SECRET_KEY=yoursecretkey
+
     URL_WEATHER=urlyoursekeyweather
+
     API_KEY_WEATHER=apileyweather
+
     API_NAME_WEATHER='challenge_salinas'
+
     BASE_URL_WEATHER='http://dataservice.accuweather.com/' 
+
     DATABASE_NAME=yourdb_name
+
     DATABASE_USER=youruser
+
     DATABASE_PASS=yourpassword
+
     DATABASE_HOST=127.0.0.1
+    
     DATABASE_PORT=5432
 
 4. correr la aplicación.
