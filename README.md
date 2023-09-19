@@ -102,7 +102,7 @@ ser consultada en los endpoints creados para obtener las consultas hechas por us
 
     si esta en windows crear el archivo manualmente en la raiz del proyecto.
 
-    A continuación, declare las variables de entorno en el archivo .env. Asegúrese de no entrecomillar las cadenas.
+    A continuación, declare las variables de entorno en el archivo .env. Asegúrese de no entrecomillar las cadenas puede ver el archivo de ejemplo .env. que se encuentra en la raiz del proyecto.
 
     BASE_URL='http://localhost:8000/'
     SECRET_KEY=yoursecretkey
